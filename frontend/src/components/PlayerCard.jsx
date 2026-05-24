@@ -4,10 +4,13 @@ import { todayKey, dateSeededMonster, getLevelFromXP, critChanceForLevel } from 
 import TileSprite from './TileSprite';
 import MonsterSprite from './MonsterSprite';
 
-const CHAR_TILES = {
-  matt:  { tile: 87, label: 'Knight'    },
-  erin:  { tile: 84, label: 'Sorceress' },
-  hazel: { tile: 99, label: 'Witch'     },
+const CLASS_TILES = {
+  warrior: { tile: 87, label: 'Warrior'  },
+  mage:    { tile: 84, label: 'Mage'     },
+  witch:   { tile: 99, label: 'Witch'    },
+  rogue:   { tile: 96, label: 'Rogue'    },
+  paladin: { tile: 88, label: 'Paladin'  },
+  ranger:  { tile: 82, label: 'Ranger'   },
 };
 
 // src, sheetW, sheetH, frameSize (default 64), frames, CSS filter, offsetY px, display override dp
@@ -56,14 +59,14 @@ const MONSTER_CFG = {
 
 export default function PlayerCard({ player, gold, xp, isSelected, onClick, monsterDamage, lastHit, streak, monster }) {
   const tKey = todayKey();
-  const m = monster || dateSeededMonster(player.id, tKey);
+  const m = monster || dateSeededMonster(player, tKey);
   const dmg = (monsterDamage?.[player.id]?.[tKey]) || 0;
   const hp = Math.max(0, m.maxHP - dmg);
   const dead = hp === 0;
   const pct = Math.round((hp / m.maxHP) * 100);
   const low = pct < 30;
 
-  const charCfg = CHAR_TILES[player.id] ?? CHAR_TILES.matt;
+  const charCfg = CLASS_TILES[player.class] ?? CLASS_TILES.warrior;
   const mc = MONSTER_CFG[m.id] ?? MONSTER_CFG.green_slime;
   const { level, xpInLevel, xpNeeded } = getLevelFromXP(xp || 0);
   const critPct = Math.round(critChanceForLevel(level) * 100);

@@ -11,44 +11,48 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-STATE_FILE = "/data/state.json"
-
-DEFAULT_STATE = {
-    "points": {"matt": 0, "erin": 0, "hazel": 0},
-    "dailyDone": {},
-    "weeklyDone": {},
-    "weekKey": "",
-    "todayKey": "",
-    "selected": None,
-    "history": [],
-    "monsterDamage": {},
-    "monsterPenalties": {},
-}
+STATE_FILE  = "/data/state.json"
+CONFIG_FILE = "/data/config.json"
 
 
-def read_state():
-    if os.path.exists(STATE_FILE):
+def read_json(path):
+    if os.path.exists(path):
         try:
-            with open(STATE_FILE) as f:
+            with open(path) as f:
                 return json.load(f)
         except Exception:
             pass
-    return DEFAULT_STATE.copy()
+    return None
 
 
-def write_state(data):
-    os.makedirs(os.path.dirname(STATE_FILE), exist_ok=True)
-    with open(STATE_FILE, "w") as f:
+def write_json(path, data):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
         json.dump(data, f)
 
 
 @app.get("/state")
 def get_state():
-    return read_state()
+    return read_json(STATE_FILE) or {}
 
 
 @app.post("/state")
 async def post_state(request: Request):
     data = await request.json()
-    write_state(data)
+    write_json(STATE_FILE, data)
+    return {"ok": True}
+
+
+@app.get("/config")
+def get_config():
+    config = read_json(CONFIG_FILE)
+    if config is None:
+        return {"needs_setup": True}
+    return config
+
+
+@app.post("/config")
+async def post_config(request: Request):
+    data = await request.json()
+    write_json(CONFIG_FILE, data)
     return {"ok": True}

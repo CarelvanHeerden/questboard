@@ -1,20 +1,16 @@
 import React from 'react';
-import { PLAYERS } from '../data';
 import { getChoresFor } from '../logic';
 import TileSprite from './TileSprite';
 
-// Maps a point value to a CSS class for the damage badge colour.
 function dmgClass(p) {
   return p === 1 ? 'pts-1' : p === 2 ? 'pts-2' : p === 3 ? 'pts-3' : 'pts-5';
 }
 
-// Renders a single chore tile. Clicking claims the chore for the selected player,
-// or undoes it if the same player already claimed it.
-function ChoreCard({ chore, dailyDone, weeklyDone, monthlyDone, selectedPlayerId, onClaim, onUnclaim }) {
+function ChoreCard({ chore, players, dailyDone, weeklyDone, monthlyDone, selectedPlayerId, onClaim, onUnclaim }) {
   const store = chore.freq === 'daily' ? dailyDone : chore.freq === 'weekly' ? weeklyDone : monthlyDone;
   const claimedById = store[chore.id];
   const isDone = !!claimedById;
-  const dp = isDone ? PLAYERS.find(p => p.id === claimedById) : null;
+  const dp = isDone ? players.find(p => p.id === claimedById) : null;
   const canUndo = isDone && claimedById === selectedPlayerId;
 
   function handleClick() {
@@ -46,13 +42,21 @@ function ChoreCard({ chore, dailyDone, weeklyDone, monthlyDone, selectedPlayerId
   );
 }
 
-export default function ChoreGrid({ selectedPlayerId, dailyDone, weeklyDone, monthlyDone, onClaimChore, onUnclaimChore }) {
-  const chores = getChoresFor(selectedPlayerId);
+export default function ChoreGrid({ player, players, activeChores, dailyDone, weeklyDone, monthlyDone, onClaimChore, onUnclaimChore }) {
+  const chores = getChoresFor(player, activeChores);
   const daily   = chores.filter(c => c.freq === 'daily');
   const weekly  = chores.filter(c => c.freq === 'weekly');
   const monthly = chores.filter(c => c.freq === 'monthly');
 
-  const cardProps = { selectedPlayerId, dailyDone, weeklyDone, monthlyDone: monthlyDone || {}, onClaim: onClaimChore, onUnclaim: onUnclaimChore };
+  const cardProps = {
+    players,
+    selectedPlayerId: player.id,
+    dailyDone,
+    weeklyDone,
+    monthlyDone: monthlyDone || {},
+    onClaim: onClaimChore,
+    onUnclaim: onUnclaimChore,
+  };
 
   return (
     <div className="chore-sections">

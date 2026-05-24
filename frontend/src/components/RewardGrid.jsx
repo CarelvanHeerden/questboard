@@ -1,11 +1,9 @@
 import React from 'react';
-import { PLAYERS } from '../data';
 import { getRewardsFor } from '../logic';
 import TileSprite from './TileSprite';
 
-export default function RewardGrid({ selectedPlayerId, gold, onRedeemReward }) {
-  const player = PLAYERS.find(p => p.id === selectedPlayerId);
-  const rewards = getRewardsFor(selectedPlayerId);
+export default function RewardGrid({ player, gold, onRedeemReward }) {
+  const rewards = getRewardsFor(player);
 
   return (
     <>
