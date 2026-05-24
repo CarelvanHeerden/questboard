@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tile Picker</title>
+<style>
+  body { background: #1a1a2e; color: white; font-family: monospace; padding: 20px; }
+  h2 { margin-bottom: 4px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 32px; }
+  .tile-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .tile { image-rendering: pixelated; }
+  .tile-num { font-size: 10px; color: #aaa; }
+  .section { margin-bottom: 20px; }
+</style>
+</head>
+<body>
+<h1>Kenney Tiny Dungeon — All Tiles</h1>
+<p>Each tile shown at 4x (64×64). Numbers below each tile = tile index.</p>
+
+<div class="section">
+  <h2>Row 7: tiles 84–95 (Characters A)</h2>
+  <div class="grid" id="row7"></div>
+</div>
+<div class="section">
+  <h2>Row 8: tiles 96–107 (Characters B)</h2>
+  <div class="grid" id="row8"></div>
+</div>
+<div class="section">
+  <h2>Row 9: tiles 108–119</h2>
+  <div class="grid" id="row9"></div>
+</div>
+<div class="section">
+  <h2>Row 10: tiles 120–131</h2>
+  <div class="grid" id="row10"></div>
+</div>
+<div class="section">
+  <h2>ALL tiles 0–131</h2>
+  <div class="grid" id="all"></div>
+</div>
+
+<script>
+const COLS = 12;
+const TILE = 16;
+const SCALE = 4;
+const SIZE = TILE * SCALE;
+const SHEET_W = 192 * SCALE;
+const SHEET_H = 176 * SCALE;
+
+function makeTile(n) {
+  const col = n % COLS;
+  const row = Math.floor(n / COLS);
+  const wrap = document.createElement('div');
+  wrap.className = 'tile-wrap';
+  const div = document.createElement('div');
+  div.className = 'tile';
+  div.style.cssText = `
+    width:${SIZE}px; height:${SIZE}px;
+    background-image: url('/sprites/tilemap_packed.png');
+    background-size: ${SHEET_W}px ${SHEET_H}px;
+    background-position: ${-(col*SIZE)}px ${-(row*SIZE)}px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    border: 1px solid #333;
+  `;
+  const lbl = document.createElement('div');
+  lbl.className = 'tile-num';
+  lbl.textContent = n;
+  wrap.appendChild(div);
+  wrap.appendChild(lbl);
+  return wrap;
+}
+
+document.getElementById('row7').append(...Array.from({length:12},(_,i)=>makeTile(84+i)));
+document.getElementById('row8').append(...Array.from({length:12},(_,i)=>makeTile(96+i)));
+document.getElementById('row9').append(...Array.from({length:12},(_,i)=>makeTile(108+i)));
+document.getElementById('row10').append(...Array.from({length:12},(_,i)=>makeTile(120+i)));
+document.getElementById('all').append(...Array.from({length:132},(_,i)=>makeTile(i)));
+</script>
+</body>
+</html>

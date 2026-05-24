@@ -1,0 +1,165 @@
+export const PLAYERS = [
+  { id: 'matt',  name: 'Matt',  initials: 'M', color: '#1a3a5c', textColor: '#7ab8f5' },
+  { id: 'erin',  name: 'Erin',  initials: 'E', color: '#4a1a2e', textColor: '#f5a0c0' },
+  { id: 'hazel', name: 'Hazel', initials: 'H', color: '#1e3a10', textColor: '#8dc447' },
+];
+
+// Tile reference (tilemap_packed.png, 16x16 grid):
+//   8=faucet  29=heart  43=wooden crate  44=glowing crate  53=monitor  55=coin
+//   63=dresser  64=cross  67=barrel  68=barrel2  72=treasure chest  75=bookshelf
+//   89=travel bag  91=backpack  113=spray bottle  114=green potion  115=red potion
+//   116=blue potion  117=double axe  118=silver axe  128=staff/stick  131=torch
+
+export const ALL_CHORES = [
+  // ── Daily – everyone ────────────────────────────────────────────────
+  { id: 'dishes',      name: 'Dishes',           icon: '🍽️', pts: 3, who: 'all',    freq: 'daily'   },
+  { id: 'wipedown',    name: 'Wipe counters',     icon: '🧽', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'toys',        name: 'Pick up toys',      icon: '🧸', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'feedpet',     name: 'Feed pets',         icon: '🐾', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'setatable',   name: 'Set the table',     icon: '🍴', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'makebeds',    name: 'Make beds',         icon: '🛏️', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'walkdog',     name: 'Walk dog',          icon: '🐕', pts: 3, who: 'all',    freq: 'daily'   },
+  { id: 'sweep',       name: 'Sweep floors',      icon: '🧹', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'unloaddw',    name: 'Empty dishwasher',  icon: '🥣', pts: 2, who: 'all',    freq: 'daily'   },
+  { id: 'clearclutter',name: 'Clear clutter',     icon: '📦', pts: 2, who: 'all',    freq: 'daily'   },
+
+  // ── Daily – adults ───────────────────────────────────────────────────
+  { id: 'cook',        name: 'Cook dinner',       icon: '🍲', pts: 4, who: 'adults', freq: 'daily'   },
+  { id: 'laundry',     name: 'Laundry',           icon: '🫧', pts: 4, who: 'adults', freq: 'daily'   },
+  { id: 'catbox',      name: 'Cat litter',        icon: '🐱', pts: 3, who: 'adults', freq: 'daily'   },
+  { id: 'foldlaundry', name: 'Fold laundry',      icon: '👕', pts: 3, who: 'adults', freq: 'daily'   },
+  { id: 'packlunch',   name: 'Pack lunches',      icon: '🥪', pts: 3, who: 'adults', freq: 'daily'   },
+  { id: 'wipestove',   name: 'Wipe stovetop',     icon: '🔥', pts: 2, who: 'adults', freq: 'daily'   },
+
+  // ── Weekly – everyone ────────────────────────────────────────────────
+  { id: 'water',       name: 'Water plants',      icon: '🌱', pts: 2, who: 'all',    freq: 'weekly'  },
+
+  // ── Weekly – adults ──────────────────────────────────────────────────
+  { id: 'vacuum',      name: 'Vacuum',            icon: '🌀', pts: 4, who: 'adults', freq: 'weekly'  },
+  { id: 'mop',         name: 'Mop floors',        icon: '🪣', pts: 4, who: 'adults', freq: 'weekly'  },
+  { id: 'trash',       name: 'Take out trash',    icon: '🗑️', pts: 3, who: 'adults', freq: 'weekly', dow: 2 },
+  { id: 'recycling',   name: 'Recycling',         icon: '♻️', pts: 3, who: 'adults', freq: 'weekly', dow: 5 },
+  { id: 'groceries',   name: 'Groceries',         icon: '🛒', pts: 4, who: 'adults', freq: 'weekly'  },
+  { id: 'dogpoop',     name: 'Dog poop',          icon: '💩', pts: 3, who: 'adults', freq: 'weekly'  },
+  { id: 'bathroom',    name: 'Clean bathroom',    icon: '🚿', pts: 4, who: 'adults', freq: 'weekly'  },
+  { id: 'compost',     name: 'Empty compost',     icon: '🍃', pts: 2, who: 'adults', freq: 'weekly'  },
+  { id: 'microwave',   name: 'Clean microwave',   icon: '♨️', pts: 3, who: 'adults', freq: 'weekly'  },
+  { id: 'yardwork',    name: 'Yard work',         icon: '🌿', pts: 4, who: 'adults', freq: 'weekly'  },
+  { id: 'sheets',      name: 'Change bed sheets', icon: '🛌', pts: 3, who: 'adults', freq: 'weekly'  },
+  { id: 'windows',     name: 'Clean windows',     icon: '🪟', pts: 3, who: 'adults', freq: 'weekly'  },
+  { id: 'bathdog',     name: 'Bathe the dog',     icon: '🐶', pts: 3, who: 'adults', freq: 'weekly'  },
+
+  // ── Weekly – kids ────────────────────────────────────────────────────
+  { id: 'homework',    name: 'Homework done',     icon: '📚', pts: 3, who: 'kids',   freq: 'weekly'  },
+
+  // ── Daily – kids ─────────────────────────────────────────────────────
+  { id: 'brushteeth',  name: 'Brush teeth',       icon: '🦷', pts: 2, who: 'kids',   freq: 'daily'   },
+  { id: 'getdressed',  name: 'Get dressed',       icon: '🧢', pts: 2, who: 'kids',   freq: 'daily'   },
+  { id: 'reading',     name: 'Read a book',       icon: '📖', pts: 3, who: 'kids',   freq: 'daily'   },
+  { id: 'backpack',    name: 'Pack backpack',     icon: '🎒', pts: 2, who: 'kids',   freq: 'daily'   },
+  { id: 'pjamas',      name: 'Put on pajamas',    icon: '🌙', pts: 2, who: 'kids',   freq: 'daily'   },
+  { id: 'tidyroom',    name: 'Tidy bedroom',      icon: '🛋️', pts: 2, who: 'kids',   freq: 'daily'   },
+
+  // ── Monthly – adults ─────────────────────────────────────────────────
+  { id: 'deepclean',   name: 'Deep clean kitchen',icon: '🧼', pts: 6, who: 'adults', freq: 'monthly' },
+  { id: 'carwash',     name: 'Wash the car',      icon: '🚗', pts: 4, who: 'adults', freq: 'monthly' },
+  { id: 'deepvac',     name: 'Deep vacuum & mop', icon: '✨', pts: 5, who: 'adults', freq: 'monthly' },
+  { id: 'oilchange',   name: 'Car maintenance',   icon: '🔧', pts: 6, who: 'adults', freq: 'monthly' },
+  { id: 'gardening',   name: 'Gardening',         icon: '🌻', pts: 5, who: 'adults', freq: 'monthly' },
+
+  // ── Monthly – everyone ───────────────────────────────────────────────
+  { id: 'organize',    name: 'Organize a room',   icon: '🗂️', pts: 5, who: 'all',    freq: 'monthly' },
+  { id: 'donate',      name: 'Donate & declutter',icon: '💝', pts: 4, who: 'all',    freq: 'monthly' },
+
+  // ── Monthly – kids ───────────────────────────────────────────────────
+  { id: 'closetclean', name: 'Clean your closet', icon: '👗', pts: 4, who: 'kids',   freq: 'monthly' },
+  { id: 'toybox',      name: 'Sort toy box',      icon: '🪀', pts: 3, who: 'kids',   freq: 'monthly' },
+];
+
+// Gold economy: avg ~10 gold/day → ~70/week
+// Rewards: quick (1–2 days) | mid (3–5 days) | big (1–2 weeks) | dream (3+ weeks)
+export const REWARDS = [
+  // ── Quick treats ─────────────────────────────────────────────────────
+  { id: 'extracandy',   name: 'Candy bag',           icon: '🍬', cost:  8, desc: 'Pick any candy you want',          who: 'kids'   },
+  { id: 'screentime',   name: 'Extra screen time',   icon: '📱', cost:  8, desc: '1 hour extra',                     who: 'kids'   },
+  { id: 'dessert',      name: 'Special dessert',     icon: '🎂', cost: 10, desc: 'Fancy treat from the store',       who: 'all'    },
+  { id: 'cocktails',    name: 'Cocktail night',      icon: '🍹', cost: 12, desc: 'Fancy drinks at home',             who: 'adults' },
+
+  // ── Mid rewards ──────────────────────────────────────────────────────
+  { id: 'choosemeal',   name: 'Pick dinner',         icon: '🍜', cost: 12, desc: "You choose what's for dinner",     who: 'all'    },
+  { id: 'bookshop',     name: 'New book',            icon: '📘', cost: 15, desc: 'Pick any book from the store',     who: 'all'    },
+  { id: 'latenight',    name: 'Stay up late',        icon: '⭐', cost: 15, desc: '1 hour past bedtime',              who: 'kids'   },
+  { id: 'cookwithme',   name: 'Cook a recipe',       icon: '👨‍🍳', cost: 20, desc: 'Pick any recipe to make together', who: 'kids'   },
+  { id: 'choosemovie',  name: 'Pick the movie',      icon: '🎬', cost: 20, desc: 'You choose what we watch',         who: 'all'    },
+  { id: 'craft',        name: 'Craft project',       icon: '✂️', cost: 18, desc: 'Pick a craft from the store',      who: 'kids'   },
+  { id: 'icecream',     name: 'Ice cream trip',      icon: '🍦', cost: 20, desc: 'Pick any flavor',                  who: 'all'    },
+  { id: 'nochore',      name: 'No chores today',     icon: '🏖️', cost: 25, desc: 'Full day off from all chores',     who: 'all'    },
+  { id: 'gamenight',    name: 'Family game night',   icon: '🎲', cost: 25, desc: 'Pick the board game',              who: 'all'    },
+
+  // ── Big rewards ───────────────────────────────────────────────────────
+  { id: 'hike',         name: 'Hike or park day',    icon: '🥾', cost: 30, desc: 'Pick a trail in Durango',          who: 'adults' },
+  { id: 'picnic',       name: 'Picnic in the park',  icon: '🧺', cost: 30, desc: 'Pack a picnic together',           who: 'all'    },
+  { id: 'videogameday', name: 'Video game all day',  icon: '🎮', cost: 35, desc: 'No screen time limits today',      who: 'kids'   },
+  { id: 'sleepover',    name: 'Sleepover',           icon: '🌛', cost: 35, desc: 'Friend can sleep over',            who: 'kids'   },
+  { id: 'toyshop',      name: 'Toy shop trip',       icon: '🎪', cost: 50, desc: '$10 toy budget, your pick',        who: 'kids'   },
+  { id: 'movie',        name: 'Movie night',         icon: '🍿', cost: 40, desc: 'Family picks the film + popcorn',  who: 'all'    },
+  { id: 'brunch',       name: 'Fancy brunch',        icon: '🥐', cost: 40, desc: 'Brunch at a nice cafe',            who: 'adults' },
+  { id: 'arcade',       name: 'Arcade or bowling',   icon: '🕹️', cost: 45, desc: 'Fun family outing',               who: 'all'    },
+  { id: 'spa',          name: 'Relaxation day',      icon: '🛁', cost: 45, desc: 'No chores, massage, chill',        who: 'adults' },
+
+  // ── Dream rewards ─────────────────────────────────────────────────────
+  { id: 'dinner',       name: 'Dinner out',          icon: '🥂', cost: 65, desc: 'Restaurant of your choice',        who: 'all'    },
+  { id: 'waterpark',    name: 'Water park day',      icon: '🌊', cost:120, desc: 'Full day at the water park',       who: 'all'    },
+  { id: 'camping',      name: 'Camping trip',        icon: '🏕️', cost:160, desc: 'Weekend in the mountains',         who: 'all'    },
+];
+
+// ── Monster roster ────────────────────────────────────────────────────
+// adults avg ~41 pts/day (16 chores), kids avg ~35 pts/day
+// Tier 1–2: killed in ≤40% of dailies; Tier 5: ≤70% of dailies
+export const MONSTERS = [
+  // Tier 1 — ~3–4 chores to defeat
+  { id: 'green_slime',    name: 'Green Slime',      adultHP:  7, kidHP:  4, atk:  2, gold:  6 },
+  { id: 'rat',            name: 'Sewer Rat',         adultHP:  7, kidHP:  4, atk:  2, gold:  6 },
+  { id: 'tiny_spider',    name: 'Tiny Spider',       adultHP:  8, kidHP:  5, atk:  2, gold:  6 },
+  { id: 'forest_imp',     name: 'Forest Imp',        adultHP:  8, kidHP:  5, atk:  2, gold:  7 },
+  { id: 'wisp',           name: 'Wisp',              adultHP:  8, kidHP:  5, atk:  2, gold:  7 },
+  { id: 'evil_shroom',    name: 'Evil Shroom',       adultHP:  9, kidHP:  5, atk:  2, gold:  7 },
+
+  // Tier 2 — ~4–6 chores to defeat
+  { id: 'goblin',         name: 'Goblin',            adultHP: 10, kidHP:  6, atk:  3, gold:  9 },
+  { id: 'night_imp',      name: 'Night Imp',         adultHP: 10, kidHP:  6, atk:  3, gold:  9 },
+  { id: 'plaguebearer',   name: 'Plaguebearer',      adultHP: 11, kidHP:  6, atk:  3, gold: 10 },
+  { id: 'spectral_hound', name: 'Spectral Hound',    adultHP: 11, kidHP:  6, atk:  3, gold: 10 },
+  { id: 'cave_bat',       name: 'Cave Bat',          adultHP: 11, kidHP:  7, atk:  3, gold: 10 },
+  { id: 'shadow_man',     name: 'Shadow Stalker',    adultHP: 12, kidHP:  7, atk:  3, gold: 11 },
+  { id: 'wild_buck',      name: 'Wild Buck',         adultHP: 12, kidHP:  7, atk:  3, gold: 11 },
+
+  // Tier 3 — ~5–7 chores to defeat
+  { id: 'skeleton',       name: 'Skeleton',          adultHP: 13, kidHP:  8, atk:  4, gold: 12 },
+  { id: 'chaos_imp',      name: 'Chaos Imp',         adultHP: 13, kidHP:  8, atk:  4, gold: 13 },
+  { id: 'large_snake',    name: 'Giant Serpent',     adultHP: 14, kidHP:  8, atk:  4, gold: 13 },
+  { id: 'reaper',         name: 'Grim Reaper',       adultHP: 14, kidHP:  9, atk:  4, gold: 14 },
+  { id: 'frost_yetling',  name: 'Frost Yeti',        adultHP: 14, kidHP:  9, atk:  4, gold: 14 },
+  { id: 'void_devil',     name: 'Void Devil',        adultHP: 15, kidHP:  9, atk:  5, gold: 15 },
+  { id: 'toxic_slime',    name: 'Toxic Slime',       adultHP: 13, kidHP:  8, atk:  4, gold: 13 },
+  { id: 'mimic',          name: 'Mimic',             adultHP: 15, kidHP:  9, atk:  5, gold: 15 },
+  { id: 'cyber_drone',    name: 'Cyber Drone',       adultHP: 14, kidHP:  8, atk:  4, gold: 14 },
+
+  // Tier 4 — ~6–8 chores to defeat
+  { id: 'skeleton_warrior',name: 'Skeleton Warrior', adultHP: 17, kidHP: 10, atk:  5, gold: 17 },
+  { id: 'molten_golem',   name: 'Molten Golem',      adultHP: 17, kidHP: 10, atk:  5, gold: 18 },
+  { id: 'mirrorfiend',    name: 'Mirrorfiend',       adultHP: 18, kidHP: 10, atk:  5, gold: 18 },
+  { id: 'fire_elemental', name: 'Fire Elemental',    adultHP: 18, kidHP: 11, atk:  5, gold: 19 },
+  { id: 'phantom_minotaur',name: 'Phantom Minotaur', adultHP: 19, kidHP: 11, atk:  6, gold: 20 },
+  { id: 'rock_golem',     name: 'Rock Golem',        adultHP: 18, kidHP: 10, atk:  5, gold: 19 },
+  { id: 'cyber_walker',   name: 'Cyber Walker',      adultHP: 19, kidHP: 11, atk:  6, gold: 20 },
+
+  // Tier 5 — boss monsters, needs a strong day (~8–10 chores)
+  { id: 'frost_golem',    name: 'Frost Golem',       adultHP: 21, kidHP: 12, atk:  6, gold: 24 },
+  { id: 'giant_spider',   name: 'Giant Spider',      adultHP: 22, kidHP: 13, atk:  7, gold: 28 },
+  { id: 'cave_troll',     name: 'Cave Troll',        adultHP: 22, kidHP: 13, atk:  7, gold: 28 },
+  { id: 'sandworm',       name: 'Sandworm',          adultHP: 24, kidHP: 14, atk:  7, gold: 32 },
+  { id: 'jrpg_ogre',      name: 'Ogre Chieftain',    adultHP: 24, kidHP: 14, atk:  7, gold: 32 },
+  { id: 'happy_blob',     name: 'Elder Blob',        adultHP: 20, kidHP: 12, atk:  6, gold: 26 },
+  { id: 'volcano_drake',  name: 'Volcano Drake',     adultHP: 28, kidHP: 16, atk:  8, gold: 38 },
+];

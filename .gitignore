@@ -1,0 +1,26 @@
+# Node
+node_modules/
+frontend/dist/
+frontend/.env*
+.env*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Local game state
+data/
+
+# Raw downloaded sprite packs (large, not needed — game uses processed sprites in monsters2/)
+frontend/public/sprites/new_monsters/
+
+# macOS / editor
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Build cache
+.cache/
