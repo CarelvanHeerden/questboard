@@ -50,18 +50,23 @@ Questboard appears in your HA sidebar. No port forwarding required.
 git clone https://github.com/thillygooth/questboard
 cd questboard
 docker build -t questboard .
-mkdir -p /opt/questboard/data
-docker run -d -p 8099:8099 -v /opt/questboard/data:/data questboard
 ```
 
-Open `http://localhost:8099`.
-
-**Running on Home Assistant OS?** The `/root` filesystem is read-only, so `./data` will fail. Use the writable supervisor data path instead:
+**On Home Assistant OS** (most of the filesystem is read-only — use the supervisor data partition):
 
 ```bash
 mkdir -p /mnt/data/supervisor/questboard/data
 docker run -d -p 8099:8099 -v /mnt/data/supervisor/questboard/data:/data questboard
 ```
+
+**On regular Linux** (any writable path works):
+
+```bash
+mkdir -p /opt/questboard/data
+docker run -d -p 8099:8099 -v /opt/questboard/data:/data questboard
+```
+
+Open `http://localhost:8099`.
 
 ---
 
