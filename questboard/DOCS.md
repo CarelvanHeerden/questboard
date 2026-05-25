@@ -1,10 +1,10 @@
-# Choreboard
+# Questboard
 
 A pixel art RPG-themed chore tracker for the whole family. Complete household chores to battle monsters, earn gold, and unlock rewards.
 
 ## First-Run Setup
 
-When you open Choreboard for the first time, a setup wizard will guide you through:
+When you open Questboard for the first time, a setup wizard will guide you through:
 
 1. **Add players** (1–6) — enter names and choose difficulty
    - **Easy mode** — kid-appropriate chores, lower monster HP
@@ -39,4 +39,4 @@ XP and levels never reset — they carry over forever.
 
 ## Support
 
-Issues and feature requests: [github.com/thillygooth/choreboard/issues](https://github.com/thillygooth/choreboard/issues)
+Issues and feature requests: [github.com/thillygooth/questboard/issues](https://github.com/thillygooth/questboard/issues)
