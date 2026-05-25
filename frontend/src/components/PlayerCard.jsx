@@ -102,7 +102,7 @@ export default function PlayerCard({ player, gold, xp, isSelected, onClick, mons
   }, [lastHit]);
 
   return (
-    <div className={`player-card ${isSelected ? 'active' : ''}`} onClick={onClick} style={{ backgroundColor: hexToRgba(player.color, 0.10) }}>
+    <div className={`player-card ${isSelected ? 'active' : ''}`} onClick={onClick} style={{ backgroundColor: hexToRgba(player.textColor, 0.07) }}>
       <div className={`char-sprite${isSelected ? ' char-active' : ''}`}>
         <TileSprite tile={charCfg.tile} scale={4} />
       </div>
