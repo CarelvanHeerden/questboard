@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTileAt } from '../logic';
+import { getTileAt, FLOOR_RADIUS } from '../logic';
 
 const VIEW = 9;        // viewport side length (odd = player in center)
 const HALF = 4;        // floor(VIEW/2)
@@ -7,20 +7,24 @@ const CELL = 36;       // px per cell
 
 // Tiles hidden until player actually steps on them (random encounter)
 const HIDDEN_TYPES = new Set(['trap', 'monster']);
-// Tiles whose icons are visible from 1 tile away (not fog) — discoverable before stepping
-const NEAR_VISIBLE_TYPES = new Set(['stairs']);
+// Tiles whose icons are visible 1 tile away — discoverable before stepping
+const NEAR_VISIBLE_TYPES = new Set(['stairs_down', 'stairs_up', 'key', 'locked_chest']);
 
-// Visual config per room type — only shown on explored cells
+// Visual config per room type
 const ROOM_STYLE = {
-  start:    { bg: '#0e2c1c', icon: '★', iconColor: '#50c870' },
-  corridor: { bg: '#110e18', icon: null },
-  empty:    { bg: '#13101e', icon: null },
-  gold_s:   { bg: '#1a1606', icon: '·',  iconColor: '#c8952a' },
-  gold_l:   { bg: '#221c08', icon: '◆',  iconColor: '#e8b84b' },
-  chest:    { bg: '#26200a', icon: '▣',  iconColor: '#ffe060' },
-  trap:     { bg: '#220808', icon: '✕',  iconColor: '#cc3030' },  // icon hidden until visited
-  monster:  { bg: '#1e0c14', icon: '☠',  iconColor: '#dd3050' },  // icon hidden until visited
-  stairs:   { bg: '#12082a', icon: '↓',  iconColor: '#b88cff' },  // visible when near
+  start:        { bg: '#0e2c1c', icon: '★',  iconColor: '#50c870' },
+  corridor:     { bg: '#110e18', icon: null },
+  empty:        { bg: '#13101e', icon: null },
+  gold_s:       { bg: '#1a1606', icon: '·',   iconColor: '#c8952a' },
+  gold_l:       { bg: '#221c08', icon: '◆',   iconColor: '#e8b84b' },
+  chest:        { bg: '#26200a', icon: '▣',   iconColor: '#ffe060' },
+  trap:         { bg: '#220808', icon: '✕',   iconColor: '#cc3030' },
+  monster:      { bg: '#1e0c14', icon: '☠',   iconColor: '#dd3050' },
+  stairs_down:  { bg: '#12082a', icon: '▼',   iconColor: '#b88cff' },
+  stairs_up:    { bg: '#0a1820', icon: '▲',   iconColor: '#88c8ff' },
+  key:          { bg: '#1a1400', icon: '◇',   iconColor: '#ffd700' },
+  locked_chest: { bg: '#1a1200', icon: '▣',   iconColor: '#778899' }, // grey = locked; gold = unlockable
+  wall:         { bg: '#050308', icon: null },
 };
 
 const FLOOR_TILE_SIZE = 32; // puny_dungeon tile size
@@ -30,6 +34,9 @@ const FLOOR_BG = "url('/sprites/dungeon_floor.png')";
 const PLAYER_COLORS = ['#50b8ff', '#50e870', '#ff9050', '#e050ff'];
 
 function getCellStyle(tileType, vis, isPlayer, isCorridor) {
+  if (tileType === 'wall') {
+    return { backgroundColor: '#050308' };
+  }
   if (vis === 'fog') {
     return { backgroundColor: '#020105' };
   }
@@ -62,6 +69,7 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
   const { pos, explored, pendingMoves, activeMonster, dayKey, floor = 1 } = dungeonMap;
   const [px, py] = pos;
   const canMove = pendingMoves > 0 && !activeMonster;
+  const inBounds = (dx, dy) => Math.max(Math.abs(px + dx), Math.abs(py + dy)) <= FLOOR_RADIUS;
 
   // Build a lookup: world key → [{ player, color }] for other players' positions
   const otherPlayerAt = {};
@@ -93,23 +101,27 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
       else if (distFromPlayer <= 2) vis = 'shadow';
       else vis = 'fog';
 
-      const tileType = (vis !== 'fog') ? getTileAt(dayKey, floor, wx, wy) : 'empty';
+      const isWall = Math.max(Math.abs(wx), Math.abs(wy)) > FLOOR_RADIUS;
+      const tileType = isWall ? 'wall' : (vis !== 'fog') ? getTileAt(dayKey, floor, wx, wy) : 'empty';
       const isCorridor = tileType === 'corridor';
-      const othersHere = otherPlayerAt[key] || [];
+      const othersHere = (!isWall && otherPlayerAt[key]) || [];
 
       // Decide what icon to show
       const styleDef = ROOM_STYLE[tileType] || ROOM_STYLE.empty;
       const isHidden = HIDDEN_TYPES.has(tileType) && !isExplored;
-      // Near-visible types (stairs) show icon when within sight, others only when explored
-      const showIcon = styleDef.icon && !isPlayer && !isHidden && (
+      const showIcon = styleDef.icon && !isPlayer && !isHidden && !isWall && (
         isExplored || (NEAR_VISIBLE_TYPES.has(tileType) && (vis === 'near' || vis === 'current'))
       );
+      // Locked chest glows gold when player is carrying the key
+      const iconColor = (tileType === 'locked_chest' && (dungeonMap.hasKey || false))
+        ? '#ffe060'
+        : styleDef.iconColor;
 
       cells.push({
         key, vx, vy, wx, wy, isPlayer, vis, tileType, isCorridor,
         showIcon,
         icon: styleDef.icon,
-        iconColor: styleDef.iconColor,
+        iconColor,
         cellStyle: getCellStyle(tileType, vis, isPlayer, isCorridor),
         othersHere,
       });
@@ -130,7 +142,10 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
             { icon: '·',  color: '#c8952a', label: 'Small gold' },
             { icon: '◆',  color: '#e8b84b', label: 'Treasure' },
             { icon: '▣',  color: '#ffe060', label: 'Chest' },
-            { icon: '↓',  color: '#b88cff', label: 'Stairs down' },
+            { icon: '◇',  color: '#ffd700', label: 'Key' },
+            { icon: '▣',  color: '#778899', label: 'Locked chest' },
+            { icon: '▼',  color: '#b88cff', label: 'Stairs down' },
+            { icon: '▲',  color: '#88c8ff', label: 'Stairs up' },
             { icon: '?',  color: '#666',    label: 'Danger (hidden)' },
             { icon: '★',  color: '#50c870', label: 'Start' },
           ].map(({ icon, color, label }) => (
@@ -146,6 +161,12 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
           <div className="dmap-status-row">
             <span className="dmap-status-label">Floor:</span>
             <span className="dmap-status-val" style={{ color: '#b88cff' }}>{floor}</span>
+          </div>
+          <div className="dmap-status-row">
+            <span className="dmap-status-label">Key:</span>
+            <span className="dmap-status-val" style={{ color: dungeonMap.hasKey ? '#ffd700' : '#444' }}>
+              {dungeonMap.hasKey ? '◇ held' : dungeonMap.lockedChestOpened ? '✓ used' : 'not found'}
+            </span>
           </div>
           <div className="dmap-status-row">
             <span className="dmap-status-label">Moves:</span>
@@ -330,22 +351,22 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
         <div className="dmap-dpad" style={{ marginTop: 16 }}>
           <div className="dmap-dpad-row">
             <button className="dmap-btn" style={{ width: cellSize, height: cellSize - 4 }}
-              onClick={() => onMove(0, -1)} disabled={!canMove} title="North">▲</button>
+              onClick={() => onMove(0, -1)} disabled={!canMove || !inBounds(0,-1)} title="North">▲</button>
           </div>
           <div className="dmap-dpad-row">
             <button className="dmap-btn" style={{ width: cellSize, height: cellSize - 4 }}
-              onClick={() => onMove(-1, 0)} disabled={!canMove} title="West">◀</button>
+              onClick={() => onMove(-1, 0)} disabled={!canMove || !inBounds(-1,0)} title="West">◀</button>
             <div style={{ width: cellSize, height: cellSize - 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span style={{ fontFamily: 'var(--pixel)', fontSize: 9, color: 'var(--text2)' }}>
                 {pendingMoves > 0 ? `⚡${pendingMoves}` : '·'}
               </span>
             </div>
             <button className="dmap-btn" style={{ width: cellSize, height: cellSize - 4 }}
-              onClick={() => onMove(1, 0)} disabled={!canMove} title="East">▶</button>
+              onClick={() => onMove(1, 0)} disabled={!canMove || !inBounds(1,0)} title="East">▶</button>
           </div>
           <div className="dmap-dpad-row">
             <button className="dmap-btn" style={{ width: cellSize, height: cellSize - 4 }}
-              onClick={() => onMove(0, 1)} disabled={!canMove} title="South">▼</button>
+              onClick={() => onMove(0, 1)} disabled={!canMove || !inBounds(0,1)} title="South">▼</button>
           </div>
         </div>
       </div>
@@ -379,8 +400,12 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
             <span>Map resets at midnight</span>
           </div>
           <div className="dmap-guide-row">
-            <span className="dmap-guide-icon" style={{ color: '#b88cff' }}>↓</span>
-            <span>Stairs take you to the next floor — deeper = richer rewards</span>
+            <span className="dmap-guide-icon" style={{ color: '#ffd700' }}>◇</span>
+            <span>Find the key, then find the locked chest for a big bonus</span>
+          </div>
+          <div className="dmap-guide-row">
+            <span className="dmap-guide-icon" style={{ color: '#b88cff' }}>▼</span>
+            <span>One staircase down per floor — go deeper for richer rewards</span>
           </div>
           <div className="dmap-guide-row">
             <span className="dmap-guide-icon">∞</span>

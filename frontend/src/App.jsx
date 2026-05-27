@@ -545,7 +545,7 @@ export default function App() {
     };
     if (event) {
       const goldTag = event.gold ? (goldDelta >= 0 ? ` +${event.gold}g` : ` -${event.gold}g`) : '';
-      const prefix = event.kind === 'stairs' ? '⬇ ' : '';
+      const prefix = event.kind === 'stairs_down' ? '⬇ ' : event.kind === 'stairs_up' ? '⬆ ' : event.kind === 'key' ? '◇ ' : event.kind === 'locked_chest' ? '🔓 ' : '';
       showToast(`${prefix}${player.name}: ${event.label}${goldTag}`);
     }
     await updateState(newState);
