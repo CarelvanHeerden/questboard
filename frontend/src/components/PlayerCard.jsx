@@ -3,6 +3,7 @@ import { todayKey, dateSeededMonster, resolveMonster, getLevelFromXP, critChance
 import { BADGES } from '../data';
 import TileSprite from './TileSprite';
 import MonsterSprite from './MonsterSprite';
+import { MONSTER_SPRITES } from '../monsterSprites';
 
 function HpSegBar({ hp, maxHP, low }) {
   const segments = Math.min(maxHP, 20);
@@ -32,50 +33,6 @@ const CLASS_TILES = {
   ranger:  { tile: 82, label: 'Ranger'   },
 };
 
-// src, sheetW, sheetH, frameSize (default 64), frames, CSS filter, offsetY px, display override dp
-// dp targets: fs=32 → 52px, fs=48 → 64px, fs=64 → 80px (boss 88px)
-const MONSTER_CFG = {
-  // PixelFlush Mega Pack - horizontal frame strips
-  green_slime:      { src: '/sprites/monsters2/green_slime.png',     sw:  32, sh:  32, fs: 32, fr: 1, dp: 52 },
-  rat:              { src: '/sprites/monsters2/rat.png',             sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  tiny_spider:      { src: '/sprites/monsters2/tiny_spider.png',     sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  forest_imp:       { src: '/sprites/monsters2/forest_imp.png',      sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  wisp:             { src: '/sprites/monsters2/wisp.png',            sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  goblin:           { src: '/sprites/monsters2/goblin.png',          sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  night_imp:        { src: '/sprites/monsters2/night_imp.png',       sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  spectral_hound:   { src: '/sprites/monsters2/spectral_hound.png',  sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  shadow_man:       { src: '/sprites/monsters2/shadow_man.png',      sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  plaguebearer:     { src: '/sprites/monsters2/plaguebearer.png',    sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  large_snake:      { src: '/sprites/monsters2/large_snake.png',     sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  reaper:           { src: '/sprites/monsters2/reaper.png',          sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  frost_yetling:    { src: '/sprites/monsters2/frost_yetling.png',   sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  toxic_slime:      { src: '/sprites/monsters2/toxic_slime.png',     sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  molten_golem:     { src: '/sprites/monsters2/molten_golem.png',    sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  mirrorfiend:      { src: '/sprites/monsters2/mirrorfiend.png',     sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
-  skeleton:         { src: '/sprites/monsters2/skeleton.png',        sw:  96, sh:  32, fs: 32, fr: 3, dp: 52 },
-  chaos_imp:        { src: '/sprites/monsters2/chaos_imp.png',       sw:  96, sh:  32, fs: 32, fr: 3, dp: 52 },
-  skeleton_warrior: { src: '/sprites/monsters2/skeleton_warrior.png',sw:  96, sh:  32, fs: 32, fr: 3, dp: 56 },
-  fire_elemental:   { src: '/sprites/monsters2/fire_elemental.png',  sw: 128, sh:  32, fs: 32, fr: 4, dp: 56 },
-  phantom_minotaur: { src: '/sprites/monsters2/phantom_minotaur.png',sw: 144, sh:  48, fs: 48, fr: 3, dp: 64 },
-  frost_golem:      { src: '/sprites/monsters2/frost_golem.png',     sw: 144, sh:  48, fs: 48, fr: 3, dp: 64 },
-  giant_spider:     { src: '/sprites/monsters2/giant_spider.png',    sw: 256, sh:  64, fs: 64, fr: 4, dp: 80 },
-  cave_troll:       { src: '/sprites/monsters2/cave_troll.png',      sw: 256, sh:  64, fs: 64, fr: 4, dp: 80 },
-  sandworm:         { src: '/sprites/monsters2/sandworm.png',        sw: 128, sh:  32, fs: 32, fr: 4, dp: 56 },
-  volcano_drake:    { src: '/sprites/monsters2/volcano_drake.png',   sw: 256, sh:  64, fs: 64, fr: 4, dp: 88 },
-  happy_blob:       { src: '/sprites/monsters2/happy_blob.png',      sw: 256, sh:  64, fs: 64, fr: 4, dp: 80 },
-  // JRPG Pack - single-frame sprites
-  evil_shroom:      { src: '/sprites/monsters2/evil_shroom.png',     sw:  32, sh:  32, fs: 32, fr: 1, dp: 52 },
-  void_devil:       { src: '/sprites/monsters2/void_devil.png',      sw:  32, sh:  32, fs: 32, fr: 1, dp: 52 },
-  wild_buck:        { src: '/sprites/monsters2/wild_buck.png',       sw:  48, sh:  48, fs: 48, fr: 1, dp: 64 },
-  mimic:            { src: '/sprites/monsters2/mimic.png',           sw:  48, sh:  48, fs: 48, fr: 1, dp: 64 },
-  rock_golem:       { src: '/sprites/monsters2/rock_golem.png',      sw:  48, sh:  48, fs: 48, fr: 1, dp: 64 },
-  jrpg_ogre:        { src: '/sprites/monsters2/jrpg_ogre.png',       sw:  48, sh:  48, fs: 48, fr: 1, dp: 68 },
-  // Dark Fantasy Enemies - Bat (animated 9-frame idle strip)
-  cave_bat:         { src: '/sprites/monsters2/cave_bat.png',        sw: 576, sh:  64, fs: 64, fr: 9, dp: 80 },
-  // Cyber Tooth - Super Dead Gunner head animation (5-frame, 48x48)
-  cyber_walker:     { src: '/sprites/monsters2/cyber_tooth.png',     sw: 240, sh:  48, fs: 48, fr: 5, dp: 72 },
-  cyber_drone:      { src: '/sprites/monsters2/cyber_drone.png',     sw: 320, sh: 288, fs: 32, fr: 4, dp: 52 },
-};
 
 export default function PlayerCard({ player, gold, xp, isSelected, onClick, monsterDamage, monsterBaseline, lastHit, streak, monster, prestige, badges, onPrestige }) {
   const tKey = todayKey();
@@ -89,7 +46,7 @@ export default function PlayerCard({ player, gold, xp, isSelected, onClick, mons
   const low = pct < 30;
 
   const charCfg = CLASS_TILES[player.class] ?? CLASS_TILES.warrior;
-  const mc = MONSTER_CFG[m.id] ?? MONSTER_CFG.green_slime;
+  const mc = MONSTER_SPRITES[m.id] ?? MONSTER_SPRITES.green_slime;
   const { level, xpInLevel, xpNeeded } = getLevelFromXP(xp || 0);
   const critPct = Math.round(critChanceForLevel(level) * 100);
   const luckPct = Math.round(luckForLevel(level) * 100);
@@ -182,17 +139,25 @@ export default function PlayerCard({ player, gold, xp, isSelected, onClick, mons
           ) : (
             <>
               <div className={hitting ? 'monster-hit' : ''}>
-                <MonsterSprite
-                  src={mc.src}
-                  sheetW={mc.sw}
-                  sheetH={mc.sh}
-                  frameSize={mc.fs ?? 64}
-                  frames={mc.fr ?? 4}
-                  fps={6}
-                  display={mc.dp ?? 48}
-                  filter={mc.f}
-                  offsetY={mc.oy ?? 0}
-                />
+                {mc.type === 'img' ? (
+                  <img
+                    src={mc.src}
+                    className="monster-idle"
+                    style={{ height: mc.dp ?? 72, width: 'auto', maxWidth: 130, imageRendering: 'pixelated', display: 'block', margin: '0 auto' }}
+                  />
+                ) : (
+                  <MonsterSprite
+                    src={mc.src}
+                    sheetW={mc.sw}
+                    sheetH={mc.sh}
+                    frameSize={mc.fs ?? 64}
+                    frames={mc.fr ?? 4}
+                    fps={6}
+                    display={mc.dp ?? 48}
+                    filter={mc.f}
+                    offsetY={mc.oy ?? 0}
+                  />
+                )}
               </div>
               {dmgNum !== null && (
                 <div className={`dmg-number${isCritHit ? ' crit' : ''}`}>

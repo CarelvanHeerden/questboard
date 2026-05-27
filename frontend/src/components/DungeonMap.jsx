@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getTileAt, GRID_W, GRID_H } from '../logic';
+import { MONSTER_SPRITES } from '../monsterSprites';
 
 const VIEW = 11;       // viewport side (odd = player centered)
 const HALF = 5;
@@ -125,6 +126,36 @@ function FloorCell({ size, tileType, vis, isPlayer, isExplored, hasKey, othersHe
   );
 }
 
+function DungeonMonsterSprite({ id }) {
+  const mc = MONSTER_SPRITES[id] ?? MONSTER_SPRITES.green_slime;
+  const dp = 52;
+  const [frame, setFrame] = useState(0);
+
+  useEffect(() => {
+    if (mc.type === 'img' || (mc.fr ?? 1) <= 1) return;
+    const id2 = setInterval(() => setFrame(f => (f + 1) % mc.fr), 1000 / 6);
+    return () => clearInterval(id2);
+  }, [mc]);
+
+  if (mc.type === 'img') {
+    return (
+      <img src={mc.src} className="monster-idle"
+        style={{ height: dp, width: 'auto', maxWidth: 80, imageRendering: 'pixelated', display: 'block', margin: '4px auto' }} />
+    );
+  }
+  const scale = dp / (mc.fs ?? 64);
+  return (
+    <div className="monster-idle" style={{
+      width: dp, height: dp, margin: '4px auto',
+      backgroundImage: `url('${mc.src}')`,
+      backgroundSize: `${mc.sw * scale}px ${mc.sh * scale}px`,
+      backgroundPosition: `${-(frame * dp)}px 0px`,
+      backgroundRepeat: 'no-repeat',
+      imageRendering: 'pixelated',
+    }} />
+  );
+}
+
 export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDungeonMaps = {}, onMove, cellSize = CELL }) {
   if (!dungeonMap?.grid || !player) return null;
   const { grid, pos, explored, pendingMoves, activeMonster, floor = 1 } = dungeonMap;
@@ -219,7 +250,7 @@ export default function DungeonMap({ player, dungeonMap, allPlayers = [], allDun
 
         {activeMonster && (
           <div className="dmap-monster-warning">
-            <div className="dmap-warning-glyph">☠</div>
+            <DungeonMonsterSprite id={activeMonster.id} />
             <div className="dmap-warning-name">{activeMonster.name}</div>
             <div className="dmap-warning-sub">blocks your path!</div>
             <div className="dmap-warning-tip">Complete a chore to defeat it</div>

@@ -109,12 +109,17 @@ function applyAutoResets(raw, players) {
     state.dailyDone = {};
     state.todayKey = todayKey();
     state.monsterBaseline = {};
-    const freshMaps = {};
+    // Dungeon persists — just grant daily bonus moves instead of resetting
+    if (!state.dungeonMaps) state.dungeonMaps = {};
     players.forEach(pl => {
-      const startMoves = 5 + Math.floor(Math.random() * 6);
-      freshMaps[pl.id] = { ...initDungeonMap(state.todayKey, 1), pendingMoves: startMoves };
+      const dm = state.dungeonMaps[pl.id];
+      const bonusMoves = 5 + Math.floor(Math.random() * 6);
+      if (dm?.grid) {
+        state.dungeonMaps[pl.id] = { ...dm, pendingMoves: (dm.pendingMoves || 0) + bonusMoves, dayKey: state.todayKey };
+      } else {
+        state.dungeonMaps[pl.id] = { ...initDungeonMap(state.todayKey, 1), pendingMoves: bonusMoves };
+      }
     });
-    state.dungeonMaps = freshMaps;
     changed = true;
   }
 
@@ -131,11 +136,11 @@ function applyAutoResets(raw, players) {
     changed = true;
   }
 
-  // Migrate: ensure all players have a valid BSP-grid dungeon map for today
+  // Ensure all players have a valid BSP-grid dungeon map
   if (!state.dungeonMaps) state.dungeonMaps = {};
   players.forEach(pl => {
     const dm = state.dungeonMaps[pl.id];
-    if (!dm || !dm.grid || dm.dayKey !== state.todayKey) {
+    if (!dm || !dm.grid) {
       const startMoves = 5 + Math.floor(Math.random() * 6);
       state.dungeonMaps[pl.id] = { ...initDungeonMap(state.todayKey || todayKey(), 1), pendingMoves: startMoves };
       changed = true;

@@ -1,0 +1,111 @@
+// Monster sprite configs — used in PlayerCard (full display) and DungeonMap (sidebar preview)
+// type:'img'  → static PNG, rendered as <img className="monster-idle">
+// (default)   → animated horizontal sprite strip, rendered via MonsterSprite component
+//   sw/sh = full sheet dimensions, fs = frame size (square), fr = frame count, dp = display px
+
+export const MONSTER_SPRITES = {
+  // ── Existing monsters2 sprites ────────────────────────────────────────────
+  green_slime:      { src: '/sprites/monsters2/green_slime.png',      sw:  32, sh:  32, fs: 32, fr: 1, dp: 52 },
+  rat:              { src: '/sprites/monsters2/rat.png',              sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  tiny_spider:      { src: '/sprites/monsters2/tiny_spider.png',      sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  forest_imp:       { src: '/sprites/monsters2/forest_imp.png',       sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  wisp:             { src: '/sprites/monsters2/wisp.png',             sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  goblin:           { src: '/sprites/monsters2/goblin.png',           sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  night_imp:        { src: '/sprites/monsters2/night_imp.png',        sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  spectral_hound:   { src: '/sprites/monsters2/spectral_hound.png',   sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  shadow_man:       { src: '/sprites/monsters2/shadow_man.png',       sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  plaguebearer:     { src: '/sprites/monsters2/plaguebearer.png',     sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  large_snake:      { src: '/sprites/monsters2/large_snake.png',      sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  reaper:           { src: '/sprites/monsters2/reaper.png',           sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  frost_yetling:    { src: '/sprites/monsters2/frost_yetling.png',    sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  toxic_slime:      { src: '/sprites/monsters2/toxic_slime.png',      sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  molten_golem:     { src: '/sprites/monsters2/molten_golem.png',     sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  mirrorfiend:      { src: '/sprites/monsters2/mirrorfiend.png',      sw:  64, sh:  32, fs: 32, fr: 2, dp: 52 },
+  skeleton:         { src: '/sprites/monsters2/skeleton.png',         sw:  96, sh:  32, fs: 32, fr: 3, dp: 52 },
+  chaos_imp:        { src: '/sprites/monsters2/chaos_imp.png',        sw:  96, sh:  32, fs: 32, fr: 3, dp: 52 },
+  skeleton_warrior: { src: '/sprites/monsters2/skeleton_warrior.png', sw:  96, sh:  32, fs: 32, fr: 3, dp: 56 },
+  fire_elemental:   { src: '/sprites/monsters2/fire_elemental.png',   sw: 128, sh:  32, fs: 32, fr: 4, dp: 56 },
+  phantom_minotaur: { src: '/sprites/monsters2/phantom_minotaur.png', sw: 144, sh:  48, fs: 48, fr: 3, dp: 64 },
+  frost_golem:      { src: '/sprites/monsters2/frost_golem.png',      sw: 144, sh:  48, fs: 48, fr: 3, dp: 64 },
+  giant_spider:     { src: '/sprites/monsters2/giant_spider.png',     sw: 256, sh:  64, fs: 64, fr: 4, dp: 80 },
+  cave_troll:       { src: '/sprites/monsters2/cave_troll.png',       sw: 256, sh:  64, fs: 64, fr: 4, dp: 80 },
+  sandworm:         { src: '/sprites/monsters2/sandworm.png',         sw: 128, sh:  32, fs: 32, fr: 4, dp: 56 },
+  volcano_drake:    { src: '/sprites/monsters2/volcano_drake.png',    sw: 256, sh:  64, fs: 64, fr: 4, dp: 88 },
+  happy_blob:       { src: '/sprites/monsters2/happy_blob.png',       sw: 256, sh:  64, fs: 64, fr: 4, dp: 80 },
+  evil_shroom:      { src: '/sprites/monsters2/evil_shroom.png',      sw:  32, sh:  32, fs: 32, fr: 1, dp: 52 },
+  void_devil:       { src: '/sprites/monsters2/void_devil.png',       sw:  32, sh:  32, fs: 32, fr: 1, dp: 52 },
+  wild_buck:        { src: '/sprites/monsters2/wild_buck.png',        sw:  48, sh:  48, fs: 48, fr: 1, dp: 64 },
+  mimic:            { src: '/sprites/monsters2/mimic.png',            sw:  48, sh:  48, fs: 48, fr: 1, dp: 64 },
+  rock_golem:       { src: '/sprites/monsters2/rock_golem.png',       sw:  48, sh:  48, fs: 48, fr: 1, dp: 64 },
+  jrpg_ogre:        { src: '/sprites/monsters2/jrpg_ogre.png',        sw:  48, sh:  48, fs: 48, fr: 1, dp: 68 },
+  cave_bat:         { src: '/sprites/monsters2/cave_bat.png',         sw: 576, sh:  64, fs: 64, fr: 9, dp: 80 },
+  cyber_walker:     { src: '/sprites/monsters2/cyber_tooth.png',      sw: 240, sh:  48, fs: 48, fr: 5, dp: 72 },
+  cyber_drone:      { src: '/sprites/monsters2/cyber_drone.png',      sw: 320, sh: 288, fs: 32, fr: 4, dp: 52 },
+
+  // ── Monster Creatures Fantasy — animated strips (150×150 per frame) ────────
+  flying_eye:   { src: '/sprites/monsters/mcf/flying_eye.png',  sw:  900, sh: 150, fs: 150, fr:  6, dp: 100 },
+  wild_goblin:  { src: '/sprites/monsters/mcf/goblin.png',      sw: 1800, sh: 150, fs: 150, fr: 12, dp: 100 },
+  spore_beast:  { src: '/sprites/monsters/mcf/mushroom.png',    sw: 1650, sh: 150, fs: 150, fr: 11, dp: 100 },
+  bone_walker:  { src: '/sprites/monsters/mcf/skeleton.png',    sw:  900, sh: 150, fs: 150, fr:  6, dp: 100 },
+
+  // ── st04 All-Round Core Fantasy — static single-frame sprites ─────────────
+  // Tier 1
+  cursed_doll:   { type: 'img', src: '/sprites/monsters/st04/St-158_Cursed_Doll.png',     dp: 52 },
+  toy_soldier:   { type: 'img', src: '/sprites/monsters/st04/St-151_Toy_Soldier.png',     dp: 52 },
+  white_snake:   { type: 'img', src: '/sprites/monsters/st04/St-154_White_Snake.png',     dp: 52 },
+  mad_hand:      { type: 'img', src: '/sprites/monsters/st04/St-157_Mad_Hand.png',        dp: 52 },
+  mandrake:      { type: 'img', src: '/sprites/monsters/st04/St-156_Mandrake.png',        dp: 52 },
+  cait_sith:     { type: 'img', src: '/sprites/monsters/st04/St-162_Cait_Sith.png',       dp: 52 },
+
+  // Tier 2
+  headless_chicken:  { type: 'img', src: '/sprites/monsters/st04/St-152_Headless_Chicken.png', dp: 60 },
+  dark_crow:         { type: 'img', src: '/sprites/monsters/st04/St-153_Dark_Crow.png',         dp: 60 },
+  bugbear:           { type: 'img', src: '/sprites/monsters/st04/St-169_Bugbear.png',           dp: 60 },
+  dead_soldier:      { type: 'img', src: '/sprites/monsters/st04/St-175_Dead_Soldier.png',      dp: 60 },
+  nymph:             { type: 'img', src: '/sprites/monsters/st04/St-173_Nymph.png',             dp: 60 },
+  arcane_soldieress: { type: 'img', src: '/sprites/monsters/st04/St-182_Arcane_Soldieress.png', dp: 60 },
+  dullahan:          { type: 'img', src: '/sprites/monsters/st04/St-178_Dullahan.png',          dp: 64 },
+
+  // Tier 3
+  grave_robber:   { type: 'img', src: '/sprites/monsters/st04/St-161_Grave_Robber.png',   dp: 68 },
+  evil_shaman:    { type: 'img', src: '/sprites/monsters/st04/St-177_Evil_Shaman.png',    dp: 68 },
+  gravekeeper:    { type: 'img', src: '/sprites/monsters/st04/St-167_Gravekeeper.png',    dp: 68 },
+  corpse_hound:   { type: 'img', src: '/sprites/monsters/st04/St-159_Corpse_Hound.png',   dp: 64 },
+  gorgon:         { type: 'img', src: '/sprites/monsters/st04/St-172_Gorgon.png',         dp: 68 },
+  jack_o_lantern: { type: 'img', src: '/sprites/monsters/st04/St-155_Jack_O_Lantern.png', dp: 72 },
+  fanatic:        { type: 'img', src: '/sprites/monsters/st04/St-170_Fanatic.png',        dp: 68 },
+  kelpie:         { type: 'img', src: '/sprites/monsters/st04/St-166_Kelpie.png',         dp: 68 },
+  cursed_archer:  { type: 'img', src: '/sprites/monsters/st04/St-176_Cursed_Archer.png',  dp: 68 },
+
+  // Tier 4
+  arcane_cannon:         { type: 'img', src: '/sprites/monsters/st04/St-174_Arcane_Cannon.png',         dp: 72 },
+  goat_man:              { type: 'img', src: '/sprites/monsters/st04/St-164_Goat_Man.png',              dp: 76 },
+  hollow_soldier:        { type: 'img', src: '/sprites/monsters/st04/St-160_Hollow_Soldier.png',        dp: 76 },
+  incubus:               { type: 'img', src: '/sprites/monsters/st04/St-171_Incubus.png',               dp: 76 },
+  scarecrow:             { type: 'img', src: '/sprites/monsters/st04/St-163_Scarecrow.png',             dp: 76 },
+  devil_well:            { type: 'img', src: '/sprites/monsters/st04/St-165_Devil_Well.png',            dp: 76 },
+  death_machine:         { type: 'img', src: '/sprites/monsters/st04/St-184_Death_Machine.png',         dp: 76 },
+  arcane_core:           { type: 'img', src: '/sprites/monsters/st04/St-181_Arcane_Core.png',           dp: 72 },
+  machine_golem:         { type: 'img', src: '/sprites/monsters/st04/St-183_Machine_Golem.png',         dp: 76 },
+  fallen_kingdom_knight: { type: 'img', src: '/sprites/monsters/st04/St-189_Fallen_Kingdom_Knight.png', dp: 80 },
+  calamity_priest:       { type: 'img', src: '/sprites/monsters/st04/St-195_Calamity_Priest.png',       dp: 76 },
+  royal_tomb_guardian:   { type: 'img', src: '/sprites/monsters/st04/St-194_Royal_Tomb_Guardian.png',   dp: 76 },
+  judgement_soldier:     { type: 'img', src: '/sprites/monsters/st04/St-193_Judgement_Soldier.png',     dp: 76 },
+  gem_thief:             { type: 'img', src: '/sprites/monsters/st04/St-191_Gem_Thief.png',             dp: 76 },
+  cursed_king:           { type: 'img', src: '/sprites/monsters/st04/St-198_Cursed_King.png',           dp: 76 },
+  evil_pudding:          { type: 'img', src: '/sprites/monsters/st04/St-179_Evil_Pudding.png',          dp: 52 },
+  godblight_parasite:    { type: 'img', src: '/sprites/monsters/st04/St-180_Godblight_Parasite.png',    dp: 72 },
+
+  // Tier 5
+  dark_drake:              { type: 'img', src: '/sprites/monsters/st04/St-168_Drake.png',                     dp: 80 },
+  scylla:                  { type: 'img', src: '/sprites/monsters/st04/St-185_Scylla.png',                    dp: 84 },
+  stone_troll:             { type: 'img', src: '/sprites/monsters/st04/St-186_Troll.png',                     dp: 88 },
+  fat_beast:               { type: 'img', src: '/sprites/monsters/st04/St-187_Fat_Beast.png',                 dp: 84 },
+  war_ogre:                { type: 'img', src: '/sprites/monsters/st04/St-188_Ogre.png',                      dp: 88 },
+  manticore:               { type: 'img', src: '/sprites/monsters/st04/St-190_Manticore.png',                 dp: 84 },
+  stone_colossus:          { type: 'img', src: '/sprites/monsters/st04/St-192_Stone_Colossus.png',            dp: 88 },
+  divine_beast_young:      { type: 'img', src: '/sprites/monsters/st04/St-196_Divine_Beast_Young.png',       dp: 84 },
+  divine_beast_adult:      { type: 'img', src: '/sprites/monsters/st04/St-197_Divine_Beast_Adult.png',       dp: 88 },
+  cursed_king_second_form: { type: 'img', src: '/sprites/monsters/st04/St-199_Cursed_King_Second_Form.png',  dp: 88 },
+  divine_beast_perfect:    { type: 'img', src: '/sprites/monsters/st04/St-200_Divine_Beast_Perfect_Form.png', dp: 88 },
+};
