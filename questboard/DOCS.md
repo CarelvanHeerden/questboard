@@ -248,6 +248,12 @@ The History tab shows a weekly gold leaderboard — who earned the most gold thi
 
 ---
 
+### Week Start Day
+
+By default the week starts on **Monday** (European convention). You can change this to **Sunday** in Settings → Display. This controls when weekly chores reset and when the weekly gold leaderboard resets.
+
+---
+
 ## Tips
 
 - Chain chores quickly for combo damage (within 8 seconds)
