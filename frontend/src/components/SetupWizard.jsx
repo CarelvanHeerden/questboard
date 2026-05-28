@@ -534,7 +534,7 @@ function RewardSection({ players, enabledRewards, onToggle, rewardOverrides, onO
 }
 
 // ── Step 4: Reward selection (wizard) ─────────────────────────────────────────
-function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, onOverride, customRewards, onAddCustom, onRemoveCustom, onBack, onLaunch, crtEnabled, onToggleCrt, uiScale, onChangeUiScale }) {
+function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, onOverride, customRewards, onAddCustom, onRemoveCustom, onBack, onLaunch, crtEnabled, onToggleCrt, uiScale, onChangeUiScale, confirmChores, onToggleConfirmChores }) {
   return (
     <div>
       <div style={S.h2}>Choose your rewards</div>
@@ -555,6 +555,15 @@ function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, 
             {crtEnabled ? '✓ CRT Scanlines ON' : 'CRT Scanlines OFF'}
           </button>
           <span style={{ color: '#5a5a7a', fontSize: 10 }}>Retro CRT overlay effect</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+          <button
+            style={{ ...(confirmChores ? S.btnPrimary : S.btn), padding: '6px 14px', fontSize: 11 }}
+            onClick={onToggleConfirmChores}
+          >
+            {confirmChores ? '\u2713 Confirm chores ON' : 'Confirm chores OFF'}
+          </button>
+          <span style={{ color: '#5a5a7a', fontSize: 10 }}>Require confirmation before completing chores</span>
         </div>
         <div style={{ ...S.label, marginBottom: 8 }}>UI SCALE</div>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -580,60 +589,93 @@ function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, 
 
 // ── Edit tab: Party ───────────────────────────────────────────────────────────
 function TabParty({ players, onUpdatePlayer, onAddPlayer, onRemovePlayer }) {
-  const [editIdx, setEditIdx] = useState(null);
-
-  if (editIdx !== null && players[editIdx]) {
-    const player = players[editIdx];
-    const canSave = player.name.trim().length > 0;
-    return (
-      <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-          <button style={{ ...S.btn, padding: '4px 10px', fontSize: 11 }} onClick={() => setEditIdx(null)}>← Back</button>
-          <span style={{ color: '#c8d0e0', fontSize: 13 }}>
-            Edit {player.name || 'Hero'}
-          </span>
-        </div>
-        <PlayerForm
-          player={player}
-          onChange={(key, val) => onUpdatePlayer(editIdx, key, val)}
-        />
-        {!canSave && (
-          <div style={{ color: '#c05a5a', fontSize: 11, marginTop: 4 }}>Enter a name.</div>
-        )}
-        <button
-          style={{ ...(canSave ? S.btnPrimary : S.btnDisabled), marginTop: 12 }}
-          onClick={canSave ? () => setEditIdx(null) : undefined}
-        >Done ✓</button>
-      </div>
-    );
-  }
+  const [expandedIdx, setExpandedIdx] = useState(null);
 
   return (
     <div>
-      <p style={S.p}>Tap a hero to edit name, class, or color.</p>
+      <p style={S.p}>Edit player name and class inline. Tap the avatar to expand color and difficulty options.</p>
       {players.map((p, i) => {
         const cls = CLASSES.find(c => c.id === p.class) || CLASSES[0];
+        const isExpanded = expandedIdx === i;
         return (
-          <div
-            key={p.id}
-            style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid #1e1e3a', cursor: 'pointer' }}
-            onClick={() => setEditIdx(i)}
-          >
-            <div style={{ width: 36, height: 36, background: p.color, border: `1px solid ${p.textColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <TileSprite tile={cls.tile} scale={2} />
+          <div key={p.id} style={{ padding: '10px 0', borderBottom: '1px solid #1e1e3a' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div
+                style={{ width: 36, height: 36, background: p.color, border: `1px solid ${p.textColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
+                onClick={() => setExpandedIdx(isExpanded ? null : i)}
+                title="Expand options"
+              >
+                <TileSprite tile={cls.tile} scale={2} />
+              </div>
+              <input
+                style={{ ...S.input, flex: 1, padding: '6px 8px', fontSize: 13 }}
+                value={p.name}
+                placeholder="Hero name…"
+                onChange={e => onUpdatePlayer(i, 'name', e.target.value)}
+              />
+              <select
+                style={{ ...S.input, width: 'auto', padding: '6px 8px', fontSize: 11, minWidth: 100 }}
+                value={p.class}
+                onChange={e => onUpdatePlayer(i, 'class', e.target.value)}
+              >
+                {CLASSES.map(c => (
+                  <option key={c.id} value={c.id}>{c.label}</option>
+                ))}
+              </select>
+              <button
+                style={{ background: 'none', border: 'none', color: '#5a5a8a', fontSize: 14, cursor: 'pointer', padding: '0 4px' }}
+                onClick={() => setExpandedIdx(isExpanded ? null : i)}
+                title={isExpanded ? 'Collapse' : 'Expand'}
+              >{isExpanded ? '▾' : '›'}</button>
             </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ color: p.textColor, fontSize: 13, fontWeight: 'bold' }}>{p.name || '(unnamed)'}</div>
-              <div style={{ color: '#5a5a8a', fontSize: 10 }}>{cls.label} · {p.mode === 'kids' ? 'Easy' : 'Hard'}</div>
-            </div>
-            <div style={{ color: '#5a5a8a', fontSize: 14 }}>›</div>
+            {!p.name.trim() && (
+              <div style={{ color: '#c05a5a', fontSize: 10, marginTop: 4, paddingLeft: 46 }}>Name is required.</div>
+            )}
+            {isExpanded && (
+              <div style={{ paddingLeft: 46, marginTop: 12 }}>
+                <div style={{ marginBottom: 12 }}>
+                  <label style={S.label}>DIFFICULTY</label>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {[
+                      { val: 'adults', label: 'Hard', desc: 'Adults' },
+                      { val: 'kids',   label: 'Easy', desc: 'Kids'   },
+                    ].map(opt => (
+                      <button
+                        key={opt.val}
+                        style={{ ...(p.mode === opt.val ? S.btnPrimary : S.btn), flex: 1, padding: '8px 6px' }}
+                        onClick={() => onUpdatePlayer(i, 'mode', opt.val)}
+                      >
+                        <div style={{ fontSize: 12, fontWeight: 'bold' }}>{opt.label}</div>
+                        <div style={{ fontSize: 9, opacity: 0.7 }}>{opt.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label style={S.label}>COLOR</label>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {PLAYER_COLORS.map((c, ci) => (
+                      <button
+                        key={ci}
+                        style={{
+                          width: 32, height: 32, background: c.color,
+                          border: p.color === c.color ? `2px solid ${c.textColor}` : '2px solid #3a3a6e',
+                          cursor: 'pointer',
+                        }}
+                        onClick={() => { onUpdatePlayer(i, 'color', c.color); onUpdatePlayer(i, 'textColor', c.textColor); }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         );
       })}
       {players.length < 6 && (
         <button
           style={{ ...S.btn, width: '100%', marginTop: 16 }}
-          onClick={() => { onAddPlayer(); setEditIdx(players.length); }}
+          onClick={onAddPlayer}
         >+ Add Hero</button>
       )}
       {players.length > 1 && (
@@ -708,7 +750,7 @@ function TabPowerUps({ powerUpSettings, onChange }) {
 }
 
 // ── Edit tab: Display ─────────────────────────────────────────────────────────
-function TabDisplay({ crtEnabled, onToggleCrt, uiScale, onChangeUiScale }) {
+function TabDisplay({ crtEnabled, onToggleCrt, uiScale, onChangeUiScale, confirmChores, onToggleConfirmChores }) {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
@@ -721,6 +763,18 @@ function TabDisplay({ crtEnabled, onToggleCrt, uiScale, onChangeUiScale }) {
             {crtEnabled ? '✓ CRT Scanlines ON' : 'CRT Scanlines OFF'}
           </button>
           <span style={{ color: '#5a5a7a', fontSize: 10 }}>Retro CRT overlay effect</span>
+        </div>
+      </div>
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ ...S.label, marginBottom: 10 }}>CHORE CONFIRMATION</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button
+            style={{ ...(confirmChores ? S.btnPrimary : S.btn), padding: '6px 14px', fontSize: 11 }}
+            onClick={onToggleConfirmChores}
+          >
+            {confirmChores ? '\u2713 Confirm chores ON' : 'Confirm chores OFF'}
+          </button>
+          <span style={{ color: '#5a5a7a', fontSize: 10 }}>Require confirmation before completing chores</span>
         </div>
       </div>
       <div>
@@ -763,6 +817,7 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
   const [customRewards, setCustomRewards] = useState(initialConfig?.customRewards ?? []);
   const [crtEnabled, setCrtEnabled] = useState(initialConfig?.crtEnabled ?? true);
   const [uiScale, setUiScale] = useState(initialConfig?.uiScale ?? 'mini');
+  const [confirmChores, setConfirmChores] = useState(initialConfig?.confirmChores ?? false);
   const [powerUpSettings, setPowerUpSettings] = useState(
     initialConfig?.powerUpSettings ?? { ...DEFAULT_POWER_UP_SETTINGS }
   );
@@ -833,6 +888,7 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
       customRewards,
       crtEnabled,
       uiScale,
+      confirmChores,
       powerUpSettings,
     });
   }
@@ -904,6 +960,7 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
               <TabDisplay
                 crtEnabled={crtEnabled} onToggleCrt={() => setCrtEnabled(v => !v)}
                 uiScale={uiScale} onChangeUiScale={setUiScale}
+                confirmChores={confirmChores} onToggleConfirmChores={() => setConfirmChores(v => !v)}
               />
             )}
           </div>
@@ -977,6 +1034,8 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
               onToggleCrt={() => setCrtEnabled(v => !v)}
               uiScale={uiScale}
               onChangeUiScale={setUiScale}
+              confirmChores={confirmChores}
+              onToggleConfirmChores={() => setConfirmChores(v => !v)}
             />
           )}
         </div>
