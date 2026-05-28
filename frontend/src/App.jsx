@@ -70,7 +70,7 @@ function applyAutoResets(raw, players) {
           if (!shieldActive && !(state.monsterPenalties || {})[pKey]) {
             state.gold = { ...state.gold, [pl.id]: Math.max(0, (state.gold[pl.id] || 0) - m.atk) };
             state.monsterPenalties = { ...state.monsterPenalties, [pKey]: true };
-            state.history = [...(state.history || []), { type: 'penalty', player: pl.name, name: m.name, pts: m.atk }];
+            state.history = [...(state.history || []), { type: 'penalty', player: pl.name, name: m.name, pts: m.atk, ts: Date.now() }];
             const taunt = MONSTER_TAUNTS[m.id] || `${m.name} attacks!`;
             penaltyMsgs.push(`⚠ ${pl.name}: ${taunt} -${m.atk} gold`);
           }
@@ -346,7 +346,7 @@ export default function App() {
         [storeKey]: { ...store, [doneKey]: selected },
         overkillCharge: { ...(serverState.overkillCharge || {}), [selected]: finalCharge },
         storedPowerTokens: { ...(serverState.storedPowerTokens || {}), [selected]: newTokens },
-        history: [...(serverState.history || []), { type: 'chore', player: player.name, name: chore.name, pts: actualPts, overkill: true }],
+        history: [...(serverState.history || []), { type: 'chore', player: player.name, name: chore.name, pts: actualPts, overkill: true, ts: Date.now() }],
         damageLog: {
           ...(serverState.damageLog || {}),
           [selected]: { ...((serverState.damageLog || {})[selected] || {}), [doneKey]: { pts: actualPts, overkill: true } },
@@ -438,10 +438,10 @@ export default function App() {
     const newXpMap = { ...(serverState.xp || {}), [selected]: newPlayerXp + lootXp };
 
     const historyEntries = [
-      { type: 'chore', player: player.name, name: chore.name, pts: actualPts, crit: isCrit, combo: combo > 1 ? combo : undefined, bonus: isBonus || undefined },
-      ...(justKilled ? [{ type: 'gold', player: player.name, name: m.name, pts: totalGoldGain, lucky: isLucky, streak: currentStreak >= 3 ? currentStreak : undefined }] : []),
-      ...(loot ? [{ type: 'loot', player: player.name, name: loot.name, icon: loot.icon, pts: lootGold, xp: lootXp }] : []),
-      ...newBadgeIds.map(bid => { const b = BADGES.find(x => x.id === bid); return { type: 'badge', player: player.name, name: b?.name || bid, icon: b?.icon || '🏅' }; }),
+      { type: 'chore', player: player.name, name: chore.name, pts: actualPts, crit: isCrit, combo: combo > 1 ? combo : undefined, bonus: isBonus || undefined, ts: Date.now() },
+      ...(justKilled ? [{ type: 'gold', player: player.name, name: m.name, pts: totalGoldGain, lucky: isLucky, streak: currentStreak >= 3 ? currentStreak : undefined, ts: Date.now() }] : []),
+      ...(loot ? [{ type: 'loot', player: player.name, name: loot.name, icon: loot.icon, pts: lootGold, xp: lootXp, ts: Date.now() }] : []),
+      ...newBadgeIds.map(bid => { const b = BADGES.find(x => x.id === bid); return { type: 'badge', player: player.name, name: b?.name || bid, icon: b?.icon || '🏅', ts: Date.now() }; }),
     ];
 
     const newState = {
@@ -585,7 +585,7 @@ export default function App() {
       gold: { ...serverState.gold, [selected]: gold - reward.cost },
       badgeProgress: { ...(serverState.badgeProgress || {}), [selected]: newProg },
       badges: { ...(serverState.badges || {}), [selected]: [...currentBadges, ...newBadgeIds] },
-      history: [...(serverState.history || []), { type: 'reward', player: player.name, name: reward.name, pts: reward.cost }],
+      history: [...(serverState.history || []), { type: 'reward', player: player.name, name: reward.name, pts: reward.cost, ts: Date.now() }],
     };
 
     await updateState(newState);
@@ -609,7 +609,7 @@ export default function App() {
       xp: { ...serverState.xp, [playerId]: 0 },
       prestige: { ...(serverState.prestige || {}), [playerId]: currentPrestige },
       badges: { ...(serverState.badges || {}), [playerId]: newBadges },
-      history: [...(serverState.history || []), { type: 'badge', player: player.name, name: 'Prestige', icon: '🌟' }],
+      history: [...(serverState.history || []), { type: 'badge', player: player.name, name: 'Prestige', icon: '🌟', ts: Date.now() }],
     };
     await updateState(newState);
     showToast(`${player.name} prestiged! +${currentPrestige * 5}% gold bonus forever! ⭐`);
