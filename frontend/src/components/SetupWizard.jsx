@@ -530,7 +530,7 @@ function RewardSection({ players, enabledRewards, onToggle, rewardOverrides, onO
 }
 
 // ── Step 4: Reward selection (wizard) ─────────────────────────────────────────
-function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, onOverride, customRewards, onAddCustom, onRemoveCustom, onBack, onLaunch, crtEnabled, onToggleCrt, uiScale, onChangeUiScale }) {
+function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, onOverride, customRewards, onAddCustom, onRemoveCustom, onBack, onLaunch, crtEnabled, onToggleCrt, uiScale, onChangeUiScale, weekStartDay, onChangeWeekStartDay }) {
   return (
     <div>
       <div style={S.h2}>Choose your rewards</div>
@@ -542,7 +542,22 @@ function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, 
         customRewards={customRewards} onAddCustom={onAddCustom} onRemoveCustom={onRemoveCustom}
       />
       <div style={{ marginTop: 20, borderTop: '1px solid #2a2a4a', paddingTop: 16 }}>
-        <div style={{ ...S.label, marginBottom: 10 }}>DISPLAY</div>
+        <div style={{ ...S.label, marginBottom: 10 }}>DISPLAY & SCHEDULE</div>
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ ...S.label, marginBottom: 8 }}>WEEK STARTS ON</div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {[{ val: 1, label: 'Monday' }, { val: 0, label: 'Sunday' }].map(opt => (
+              <button
+                key={opt.val}
+                style={{ ...(weekStartDay === opt.val ? S.btnPrimary : S.btn), flex: 1, padding: '8px 4px', fontSize: 11 }}
+                onClick={() => onChangeWeekStartDay(opt.val)}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <div style={{ color: '#5a5a7a', fontSize: 10, marginTop: 4 }}>Controls when weekly chores and gold reset</div>
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
           <button
             style={{ ...(crtEnabled ? S.btnPrimary : S.btn), padding: '6px 14px', fontSize: 11 }}
@@ -704,9 +719,24 @@ function TabPowerUps({ powerUpSettings, onChange }) {
 }
 
 // ── Edit tab: Display ─────────────────────────────────────────────────────────
-function TabDisplay({ crtEnabled, onToggleCrt, uiScale, onChangeUiScale }) {
+function TabDisplay({ crtEnabled, onToggleCrt, uiScale, onChangeUiScale, weekStartDay, onChangeWeekStartDay }) {
   return (
     <div>
+      <div style={{ marginBottom: 24 }}>
+        <div style={{ ...S.label, marginBottom: 10 }}>WEEK STARTS ON</div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {[{ val: 1, label: 'Monday' }, { val: 0, label: 'Sunday' }].map(opt => (
+            <button
+              key={opt.val}
+              style={{ ...(weekStartDay === opt.val ? S.btnPrimary : S.btn), flex: 1, padding: '10px 4px', fontSize: 12 }}
+              onClick={() => onChangeWeekStartDay(opt.val)}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+        <div style={{ color: '#5a5a7a', fontSize: 10, marginTop: 6 }}>Controls when weekly chores and gold reset</div>
+      </div>
       <div style={{ marginBottom: 24 }}>
         <div style={{ ...S.label, marginBottom: 10 }}>CRT EFFECT</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -759,6 +789,7 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
   const [customRewards, setCustomRewards] = useState(initialConfig?.customRewards ?? []);
   const [crtEnabled, setCrtEnabled] = useState(initialConfig?.crtEnabled ?? true);
   const [uiScale, setUiScale] = useState(initialConfig?.uiScale ?? 'mini');
+  const [weekStartDay, setWeekStartDay] = useState(initialConfig?.weekStartDay ?? 1);
   const [powerUpSettings, setPowerUpSettings] = useState(
     initialConfig?.powerUpSettings ?? { ...DEFAULT_POWER_UP_SETTINGS }
   );
@@ -829,6 +860,7 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
       customRewards,
       crtEnabled,
       uiScale,
+      weekStartDay,
       powerUpSettings,
     });
   }
@@ -900,6 +932,7 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
               <TabDisplay
                 crtEnabled={crtEnabled} onToggleCrt={() => setCrtEnabled(v => !v)}
                 uiScale={uiScale} onChangeUiScale={setUiScale}
+                weekStartDay={weekStartDay} onChangeWeekStartDay={setWeekStartDay}
               />
             )}
           </div>
@@ -973,6 +1006,8 @@ export default function SetupWizard({ onComplete, onCancel, initialConfig }) {
               onToggleCrt={() => setCrtEnabled(v => !v)}
               uiScale={uiScale}
               onChangeUiScale={setUiScale}
+              weekStartDay={weekStartDay}
+              onChangeWeekStartDay={setWeekStartDay}
             />
           )}
         </div>

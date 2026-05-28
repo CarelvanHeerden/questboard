@@ -32,8 +32,12 @@ Each chore has a chance to deal **double damage** (crit). Your base crit chance 
 | Chore type | Resets |
 |------------|--------|
 | Daily | Every midnight |
-| Weekly | Every Sunday |
+| Weekly | Start of week (configurable) |
 | Monthly | 1st of each month |
+
+### Week Start Day
+
+By default the week starts on **Monday** (common in Europe). You can change this to **Sunday** in the Display settings tab. This controls when weekly chores and weekly gold reset. You can change it during initial setup or later in Settings → Display.
 
 XP and levels never reset — they carry over forever.
 
