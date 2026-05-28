@@ -6,7 +6,7 @@ Each family member gets a hero and a daily monster to fight. Complete chores to 
 
 Built to run on a kitchen tablet, locked to a browser, always-on.
 
-![Questboard main screen](screenshot.png)
+![Questboard main screen](screenshots_combined.png)
 
 [![Release](https://img.shields.io/github/v/release/thillygooth/questboard)](https://github.com/thillygooth/questboard/releases)
 [![License](https://img.shields.io/github/license/thillygooth/questboard)](LICENSE)
@@ -50,6 +50,28 @@ The interface runs fullscreen in the browser. Each player gets a card with their
 | 📱 Kids & adults modes | Separate difficulty scaling — kids get easier monsters |
 | 🎮 CRT overlay | Optional scanline filter for maximum retro vibes |
 | 🔍 UI Scale | Mini / Heroic / Epic zoom modes for any screen size |
+
+📖 **[Full game guide →](questboard/DOCS.md)** — hero classes, dungeon mechanics, combat details, badges, power-ups, and more.
+
+---
+
+## Quick Reference
+
+### Hero Classes
+
+Classes are cosmetic — they change your hero's sprite but don't affect stats. Available: Warrior, Mage, Witch, Rogue, Paladin, Ranger, Frost Knight.
+
+### Midnight Monster Penalty
+
+If you don't defeat your daily monster before midnight, it **attacks** — you lose gold equal to its attack power. Tougher monsters hit harder. Shield Aura power-up blocks the penalty.
+
+### Dungeon
+
+A per-player fog-of-war dungeon you explore by earning moves from chores. Use the on-screen d-pad to navigate. Find gold, treasure chests, keys, and fight dungeon monsters — but watch out for traps. Deeper floors have better rewards.
+
+### Reset Week
+
+Manual full reset: clears all gold, chore progress, streaks, and power-ups for every player. History, XP, levels, and badges are kept. Triggers immediately (not aligned to a specific day).
 
 ---
 
