@@ -1,4 +1,4 @@
-# Questboard — Full Guide
+# Questboard - Full Guide
 
 A pixel art RPG-themed chore tracker for the whole family. Complete household chores to battle monsters, earn gold, and unlock rewards.
 
@@ -8,12 +8,12 @@ A pixel art RPG-themed chore tracker for the whole family. Complete household ch
 
 When you open Questboard for the first time, a setup wizard guides you through:
 
-1. **Add players** (1–6) — enter names and choose difficulty mode
-   - **Kids mode** — kid-appropriate chores, lower monster HP, easier battles
-   - **Adults mode** — full chore list, tougher monsters, higher stakes
-2. **Pick an avatar and class** — see [Hero Classes](#hero-classes) below
-3. **Choose chores** — toggle individual chores on/off, add custom ones
-4. **Choose rewards** — pick what you can spend gold on
+1. **Add players** (1–6) - enter names and choose difficulty mode
+   - **Kids mode** - kid-appropriate chores, lower monster HP, easier battles
+   - **Adults mode** - full chore list, tougher monsters, higher stakes
+2. **Pick an avatar and class** - see [Hero Classes](#hero-classes) below
+3. **Choose chores** - toggle individual chores on/off, add custom ones
+4. **Choose rewards** - pick what you can spend gold on
 5. **Start your adventure!**
 
 You can return to Settings any time to add/remove players, change chores, adjust rewards, or tweak difficulty.
@@ -23,7 +23,7 @@ You can return to Settings any time to add/remove players, change chores, adjust
 ## How to Play
 
 1. Tap a **player card** to select your hero
-2. Tap any **chore** to complete it — this deals damage to your daily monster
+2. Tap any **chore** to complete it - this deals damage to your daily monster
 3. Fill the monster's HP bar to zero before midnight to **earn gold**
 4. Spend gold in the **Reward Shop** on family rewards
 
@@ -36,7 +36,7 @@ Every day at midnight:
 
 ### What Happens If You Don't Defeat Your Monster
 
-If midnight hits and your monster still has HP left, **the monster attacks you**. You lose gold equal to the monster's attack power. The exact amount depends on the monster — tougher monsters hit harder.
+If midnight hits and your monster still has HP left, **the monster attacks you**. You lose gold equal to the monster's attack power. The exact amount depends on the monster - tougher monsters hit harder.
 
 You'll see a warning toast like: `⚠ Amy: The goblin swings wildly at your coins! -3 gold`
 
@@ -48,7 +48,7 @@ Your gold can't go below zero, but a penalty resets your "penalty-free days" str
 
 ## Hero Classes
 
-Classes are cosmetic — they change your hero's sprite but don't affect gameplay stats. Pick whatever looks cool!
+Classes are cosmetic - they change your hero's sprite but don't affect gameplay stats. Pick whatever looks cool!
 
 | Class | Description |
 |-------|-------------|
@@ -64,12 +64,12 @@ All players earn XP, gold, and level up at the same rate regardless of class.
 
 ---
 
-## Chores — Party vs Solo
+## Chores - Party vs Solo
 
 Every chore has a mode:
 
-- **ALL (party)** — shared by the whole group. When one person completes it, it's done for everyone. Great for household tasks like "Cook dinner" or "Vacuum."
-- **1P (solo)** — tracked per player. Each person must complete it themselves. Perfect for personal tasks like "Brush teeth" or "Pack backpack."
+- **ALL (party)** - shared by the whole group. When one person completes it, it's done for everyone. Great for household tasks like "Cook dinner" or "Vacuum."
+- **1P (solo)** - tracked per player. Each person must complete it themselves. Perfect for personal tasks like "Brush teeth" or "Pack backpack."
 
 You can toggle any chore between ALL and 1P in Settings using the green ALL / pink 1P button.
 
@@ -100,7 +100,7 @@ Defeat your monster every day to build a streak:
 Missing a day (monster survives) resets your streak to zero.
 
 ### Loot Drops
-Every chore has a 10% chance to drop bonus loot — extra gold or XP. Your luck stat (increases with level) improves drop quality.
+Every chore has a 10% chance to drop bonus loot - extra gold or XP. Your luck stat (increases with level) improves drop quality.
 
 ### Overkill System
 After killing your monster, any additional chores charge an **overkill bar**. Fill it up to bank Power Tokens that can be spent on power-ups.
@@ -109,13 +109,13 @@ After killing your monster, any additional chores charge an **overkill bar**. Fi
 
 ## Dungeon
 
-The Dungeon is a fog-of-war exploration mode — a procedurally generated dungeon that each player explores independently.
+The Dungeon is a fog-of-war exploration mode - a procedurally generated dungeon that each player explores independently.
 
 ### How It Works
 
 1. **Earn moves** by completing chores. Each chore grants dungeon moves.
 2. **Explore** the dungeon using the on-screen d-pad (← ↑ ↓ →) or swipe gestures.
-3. **Discover rooms** as you move — the fog lifts to reveal what's inside.
+3. **Discover rooms** as you move - the fog lifts to reveal what's inside.
 4. **Collect loot** and avoid traps as you go deeper.
 
 ### What You'll Find
@@ -126,22 +126,22 @@ The Dungeon is a fog-of-war exploration mode — a procedurally generated dungeo
 | 💰 Large gold | 2–5 gold |
 | 📦 Chest | 5–9 gold jackpot |
 | ⚠️ Trap | Lose gold (reduced by luck stat) |
-| 👹 Monster | Dungeon combat — defeat it with chore completions |
+| 👹 Monster | Dungeon combat - defeat it with chore completions |
 | 🗝️ Key | Picks up the floor key |
-| 🔒 Locked chest | 10–17 gold — requires the floor key |
+| 🔒 Locked chest | 10–17 gold - requires the floor key |
 | ⬇️ Stairs down | Descend to the next floor (harder but more loot) |
 | ⬆️ Stairs up | Return to the previous floor |
 
 ### Dungeon Strategy
 
-- **Go deep** — deeper floors and rooms farther from the start give better rewards (depth multiplier + floor multiplier)
-- **Find the key first** — each floor has one key and one locked chest. The locked chest is the biggest payout.
-- **Watch for traps** — higher luck (from leveling up) reduces trap damage
+- **Go deep** - deeper floors and rooms farther from the start give better rewards (depth multiplier + floor multiplier)
+- **Find the key first** - each floor has one key and one locked chest. The locked chest is the biggest payout.
+- **Watch for traps** - higher luck (from leveling up) reduces trap damage
 - **Dungeon monsters** require multiple chore completions to defeat, but drop gold when killed
 
 ### Controls
 
-- **D-pad overlay** — tap the directional arrows on screen
+- **D-pad overlay** - tap the directional arrows on screen
 - Each move costs 1 pending move from your pool
 - You earn moves from completing chores during normal play
 
@@ -188,7 +188,7 @@ Earn badges by reaching milestones. Each badge also unlocks a hero title.
 
 ### Prestige
 
-At level 10, you can **prestige** — reset your XP and level back to 1 in exchange for a permanent gold bonus. Your badges, gold, and history are kept.
+At level 10, you can **prestige** - reset your XP and level back to 1 in exchange for a permanent gold bonus. Your badges, gold, and history are kept.
 
 ---
 
@@ -221,7 +221,7 @@ The **Reset Week** button in the top-right is a manual full reset. It:
 
 It does **NOT** reset: history log, XP/levels, badges, or settings.
 
-This is a hard reset — use it when you want a fresh start for the family. It triggers immediately from the current moment, not aligned to any specific day of the week.
+This is a hard reset - use it when you want a fresh start for the family. It triggers immediately from the current moment, not aligned to any specific day of the week.
 
 A confirmation dialog appears before it runs.
 
@@ -244,7 +244,7 @@ XP, levels, gold, badges, and history persist forever.
 
 ## Weekly Leaderboard
 
-The History tab shows a weekly gold leaderboard — who earned the most gold this week. Resets when the week rolls over (Sunday).
+The History tab shows a weekly gold leaderboard - who earned the most gold this week. Resets when the week rolls over (Sunday).
 
 ---
 
@@ -257,8 +257,8 @@ By default the week starts on **Monday** (European convention). You can change t
 ## Tips
 
 - Chain chores quickly for combo damage (within 8 seconds)
-- The bonus chore (⭐) changes daily — prioritize it
-- Kill streaks compound — a 14-day streak doubles your gold
+- The bonus chore (⭐) changes daily - prioritize it
+- Kill streaks compound - a 14-day streak doubles your gold
 - Explore the dungeon for extra gold that doesn't depend on monsters
 - Shield Aura is your insurance policy against midnight penalties
 - Personal chores (1P) are great for kids' routines that each child needs to do independently

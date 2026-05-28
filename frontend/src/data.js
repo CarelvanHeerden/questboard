@@ -108,7 +108,7 @@ export const REWARDS = [
   { id: 'camping',      name: 'Camping trip',        icon: '🏕️', cost:220, desc: 'Weekend in the mountains',         who: 'all'    },
 ];
 
-// Monster roster — level-gated tiers with normalized gold/HP ratios
+// Monster roster - level-gated tiers with normalized gold/HP ratios
 // Tier assignment: HP 7-8 → T1, HP 9 → T2, HP 10 atk≤3 → T2, HP 10 atk≥4 → T3,
 //   HP 11 atk≤4 → T3, HP 11 atk≥5 → T4, HP 12 gold<16(old) → T4, HP 12 gold≥16(old) → T5
 // Gold ratios: T1=0.80/0.70, T2=0.85/0.75, T3=0.90/0.80, T4=0.95/0.85, T5=1.00/0.90
