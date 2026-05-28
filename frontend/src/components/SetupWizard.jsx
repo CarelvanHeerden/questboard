@@ -561,7 +561,7 @@ function StepRewardSelect({ players, enabledRewards, onToggle, rewardOverrides, 
             style={{ ...(confirmChores ? S.btnPrimary : S.btn), padding: '6px 14px', fontSize: 11 }}
             onClick={onToggleConfirmChores}
           >
-            {confirmChores ? '\u2713 Confirm chores ON' : 'Confirm chores OFF'}
+            {confirmChores ? '✓ Confirm chores ON' : 'Confirm chores OFF'}
           </button>
           <span style={{ color: '#5a5a7a', fontSize: 10 }}>Require confirmation before completing chores</span>
         </div>
@@ -772,7 +772,7 @@ function TabDisplay({ crtEnabled, onToggleCrt, uiScale, onChangeUiScale, confirm
             style={{ ...(confirmChores ? S.btnPrimary : S.btn), padding: '6px 14px', fontSize: 11 }}
             onClick={onToggleConfirmChores}
           >
-            {confirmChores ? '\u2713 Confirm chores ON' : 'Confirm chores OFF'}
+            {confirmChores ? '✓ Confirm chores ON' : 'Confirm chores OFF'}
           </button>
           <span style={{ color: '#5a5a7a', fontSize: 10 }}>Require confirmation before completing chores</span>
         </div>
