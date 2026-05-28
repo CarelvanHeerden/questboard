@@ -25,7 +25,8 @@ You can return to Settings any time to add/remove players, change chores, adjust
 1. Tap a **player card** to select your hero
 2. Tap any **chore** to complete it  -  this deals damage to your daily monster
 3. Fill the monster's HP bar to zero before midnight to **earn gold**
-4. Spend gold in the **Reward Shop** on family rewards
+4. If you don't defeat it, the monster **attacks** and you lose gold
+5. Spend gold in the **Reward Shop** on family rewards
 
 ### The Daily Cycle
 
@@ -232,7 +233,7 @@ A confirmation dialog appears before it runs.
 | What | When |
 |------|------|
 | Daily chores | Every midnight |
-| Weekly chores | Every Sunday at midnight |
+| Weekly chores | Start of week at midnight (configurable: Monday or Sunday) |
 | Monthly chores | 1st of each month at midnight |
 | Monster assignment | Every midnight (new monster) |
 | Kill streak | Resets to 0 if monster survived |
